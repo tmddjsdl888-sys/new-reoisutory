@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MOMENTBAY | 유튜브 확정 성과 매니지먼트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100;400;700;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #FCF8F3;
+            color: #1A1A1A;
+            word-break: keep-all;
+            overflow-x: hidden;
+        }
+        .text-brand-green { color: #1B4332; }
+        .bg-brand-green { background-color: #1B4332; }
+       
+        /* 로고 필기체 설정 */
+        .logo-cursive { font-family: 'Caveat', cursive; }
+
+        /* 글로우 효과 */
+        .glow-yellow { box-shadow: 0 0 50px rgba(250, 225, 0, 0.4); }
+        .glow-green { box-shadow: 0 0 40px rgba(27, 67, 50, 0.15); }
+        .glow-text-neon { text-shadow: 0 0 20px rgba(74, 222, 128, 0.9), 0 0 10px rgba(74, 222, 128, 0.6); }
+
+        /* 특정 텍스트 스타일 */
+        .as-white { color: #FFFFFF !important; font-weight: 700; }
+        .as-neon { color: #4ADE80 !important; font-weight: 900; text-shadow: 0 0 10px rgba(74, 222, 128, 0.6); }
+        .as-black { color: #1A1A1A !important; font-weight: 700; }
+        .as-green-focus { color: #1B4332 !important; font-weight: 900; text-decoration: underline; text-decoration-color: #4ADE80; text-underline-offset: 4px; }
+
+        /* 비즈니스 노란색 글씨 + 라이트 효과 */
+        .biz-light {
+            color: #FAE100 !important;
+            font-weight: 900;
+            text-shadow: 0 0 30px rgba(250, 225, 0, 1), 0 0 15px rgba(250, 225, 0, 0.7);
+        }
+
+        /* 매출성장의 기회 연두색 글로우 */
+        .footer-neon-glow {
+            color: #4ADE80 !important;
+            font-weight: 900;
+            text-shadow: 0 0 25px rgba(74, 222, 128, 0.8);
+            text-decoration: none !important;
+        }
+       
+        .no-wrap { white-space: nowrap !important; }
+       
+        /* 전 기기 무조건 2열 배열 고정 */
+        .force-grid-2 {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            width: 100% !important;
+            gap: 0.5rem;
+        }
+        @media (min-width: 1024px) {
+            .force-grid-2 { gap: 2rem; }
+        }
+
+        /* 가격 카드 규격 최적화 */
+        .pricing-card {
+            transition: all 0.3s ease;
+            background: #FFFFFF;
+            border: 1px solid rgba(27, 67, 50, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem 0.75rem !important;
+        }
+        @media (min-width: 768px) {
+            .pricing-card { padding: 2rem 1.5rem !important; }
+        }
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(27, 67, 50, 0.15);
+        }
+
+        .rounded-high { border-radius: 1.5rem; }
+        @media (min-width: 768px) { .rounded-high { border-radius: 2.5rem; } }
+        .rounded-master { border-radius: 3.5rem; }
+        .btn-kakao { background-color: #FAE100; color: #3C1E1E; font-weight: 900; }
+
+        /* 플랜 리스트 폰트 통일 */
+        .plan-feature-list {
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            line-height: 1.6 !important;
+        }
+        @media (min-width: 768px) {
+            .plan-feature-list { font-size: 14px !important; }
+        }
+       
+        /* 카드 내 구분선 박스 높이 최적화 */
+        .plan-divider-box {
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            margin: 0.75rem 0;
+        }
+        @media (min-width: 768px) {
+            .plan-divider-box { min-height: 100px; margin: 1rem 0; }
+        }
+
+        /* 비교표 디자인 스타일 */
+        .comp-container { width: 100%; max-width: 1000px; margin: 0 auto; }
+        .comp-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+        .comp-category {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #1A1A1A;
+            color: #fff;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 900;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            letter-spacing: -0.05em;
+        }
+        @media (min-width: 768px) { .comp-category { font-size: 20px; padding: 10px 28px; } }
+       
+        .comp-left {
+            background: #f1f1f1;
+            border-radius: 20px 0 0 20px;
+            padding: 1.5rem 0.5rem;
+            text-align: center;
+            color: #555;
+            border: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .comp-right {
+            background: #1B4332;
+            border-radius: 0 20px 20px 0;
+            padding: 1.5rem 0.5rem;
+            text-align: center;
+            color: #fff;
+            box-shadow: 10px 10px 30px rgba(27, 67, 50, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (min-width: 768px) {
+            .comp-left, .comp-right { padding: 2.5rem 2rem; }
+        }
+    </style>
+</head>
+<body class="antialiased text-center">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-[100] bg-white/90 backdrop-blur-md border-b border-zinc-100 py-4 px-6 flex justify-between items-center text-center">
+        <div class="flex items-center gap-2 group cursor-pointer">
+            <div class="w-7 h-7 bg-brand-green rounded flex items-center justify-center shadow-lg transition-transform group-hover:rotate-12">
+                <span class="text-white font-black text-xs italic">M</span>
+            </div>
+            <span class="logo-cursive text-brand-green text-3xl leading-none pt-1">Momentbay</span>
+        </div>
+        <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="btn-kakao px-4 py-2 rounded-full text-[10px] md:text-sm font-black flex items-center gap-2 transition-transform active:scale-95 shadow-lg">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.315 6.124l-1.09 4.011c-.046.166.053.332.221.373.053.013.108.01.161-.007l4.737-3.13c.538.096 1.093.144 1.656.144 4.97 0 9-3.185 9-7.115S16.97 3 12 3z"/></svg>
+            카톡 상담하기
+        </a>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <header class="relative pt-40 pb-20 px-6 flex flex-col items-center overflow-hidden text-center">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[500px] bg-green-200/20 blur-[120px] pointer-events-none rounded-full text-center"></div>
+       
+        <div class="max-w-5xl mx-auto flex flex-col items-center relative z-10 text-center">
+            <div class="bg-white border border-red-100 text-red-500 px-5 py-2 rounded-full text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase mb-8 shadow-sm animate-pulse text-center">
+                Critical Marketing Efficiency Audit
+            </div>
+           
+            <h1 class="text-3xl md:text-8xl font-black leading-[1.3] mb-8 tracking-tighter px-2 text-center">
+                대표님의 마케팅 예산이 <br>
+                <span class="text-red-500 underline decoration-red-200 underline-offset-[8px]">증발하고 있지는 않습니까?</span>
+            </h1>
+           
+            <p class="text-base md:text-2xl text-zinc-500 font-medium mb-12 max-w-4xl px-4 leading-relaxed mx-auto italic text-center">
+                성과 없는 무의미한 업로드는 이제 멈추십시오. <br class="hidden md:block">
+                저희 <span class="text-brand-green font-black italic text-center">Momentbay</span>의 <span class="text-brand-green font-black underline decoration-green-200 underline-offset-4 italic whitespace-nowrap">조회수 보장 서비스</span>를 통해 <br class="hidden md:block">
+                버려지는 비용을 강력한 비즈니스 자산으로 바꾸어 드립니다.
+            </p>
+
+            <div class="force-grid-2 w-full max-w-4xl px-2 mx-auto">
+                <div class="p-6 md:p-10 pricing-card rounded-high shadow-2xl flex flex-col items-center justify-center glow-green">
+                    <p class="text-[9px] md:text-[11px] text-zinc-400 font-black mb-1 uppercase tracking-widest text-center">Base Result</p>
+                    <p class="text-2xl md:text-6xl font-black text-brand-green italic leading-none text-center">30,000회</p>
+                    <p class="text-[9px] md:text-sm font-bold text-zinc-500 mt-2 italic text-center"><span class="text-green-600 font-black italic italic">최저 플랜부터</span> 100% 보장</p>
+                </div>
+                <div class="p-6 md:p-10 pricing-card rounded-high shadow-2xl flex flex-col items-center justify-center border-zinc-100 glow-green">
+                    <p class="text-[9px] md:text-[11px] text-zinc-400 font-black mb-1 uppercase tracking-widest text-center">Unit Stability</p>
+                    <p class="text-2xl md:text-6xl font-black text-zinc-800 italic leading-none text-center">500회 +</p>
+                    <p class="text-[9px] md:text-sm font-bold text-zinc-500 mt-2 italic text-center font-black italic text-center">영상 당 <span class="text-zinc-900 font-black italic">최소 조회수 보장</span></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. SIDE-BY-SIDE COMPARISON (Header & Text Fixes Applied) -->
+    <section class="py-16 md:py-32 px-2 md:px-4 flex flex-col items-center">
+        <div class="max-w-6xl w-full text-center flex flex-col items-center">
+            <div class="text-center mb-16 flex flex-col items-center text-center">
+                <div class="bg-red-500 text-white px-5 py-1.5 rounded-lg text-xs md:text-sm font-black mb-4 tracking-widest uppercase shadow-lg text-center">타사비교</div>
+                <span class="text-[11px] font-black tracking-[0.5em] uppercase mb-3 block text-zinc-300 text-center">The Hard Contrast</span>
+                <h2 class="text-3xl md:text-6xl font-black mb-10 tracking-tighter leading-tight italic text-center">
+                    성과 없는 마케팅은 <br> 지출이 아니라 <br> <span class="text-red-500 underline decoration-red-100 underline-offset-8 font-black">'손실'입니다.</span>
+                </h2>
+                <div class="w-20 h-1.5 bg-brand-green rounded-full mx-auto mt-4 text-center"></div>
+            </div>
+
+            <div class="comp-container w-full">
+                <!-- Header (Font size 2pt up for Typical / Momentbay English Cursive + Korean Subtext Applied) -->
+                <div class="grid grid-cols-2 text-center bg-zinc-100 border-b border-zinc-200 rounded-t-3xl overflow-hidden mb-8 md:mb-12">
+                    <!-- Typical Side: Size 2pt Up (text-lg md:text-4xl) -->
+                    <div class="py-8 md:py-14 text-zinc-800 font-black italic text-lg md:text-4xl border-r border-zinc-200 flex items-center justify-center">타사</div>
+                    <!-- Momentbay Side: English Cursive + Small Korean Text -->
+                    <div class="py-8 md:py-14 bg-brand-green text-green-300 flex flex-col items-center justify-center">
+                        <span class="logo-cursive text-3xl md:text-7xl leading-none">Momentbay</span>
+                        <span class="text-[10px] md:text-sm font-black opacity-60 mt-1">모먼트베이</span>
+                    </div>
+                </div>
+
+                <!-- Row 1: 성과 (도박 문구 삭제) -->
+                <div class="comp-row">
+                    <div class="comp-category text-center">성과 지표</div>
+                    <div class="comp-left text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-3xl font-black text-red-500 italic">미보증</p>
+                        <p class="text-[8px] md:text-base mt-1 font-bold opacity-60">알고리즘 운에 의존</p>
+                    </div>
+                    <div class="comp-right text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-4xl font-black italic underline decoration-green-400 underline-offset-4 font-black">30,000회 확정</p>
+                        <p class="text-[8px] md:text-base mt-1 font-bold text-green-300 font-black">데이터 기반 결과 보장</p>
+                    </div>
+                </div>
+
+                <!-- Row 2: 알고리즘 -->
+                <div class="comp-row">
+                    <div class="comp-category text-center font-black">알고리즘</div>
+                    <div class="comp-left text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-3xl font-black text-zinc-800 italic leading-tight">분석 데이터 전무</p>
+                    </div>
+                    <div class="comp-right text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-4xl font-black italic leading-tight font-black font-black">트리거 세팅 기술</p>
+                    </div>
+                </div>
+
+                <!-- Row 3: 계약구조 -->
+                <div class="comp-row">
+                    <div class="comp-category text-center font-black">계약 구조</div>
+                    <div class="comp-left text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-3xl font-black italic leading-tight text-zinc-800 font-black">최소 3~6개월 약정</p>
+                    </div>
+                    <div class="comp-right text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-4xl font-black italic leading-tight font-black">1개월 자유 계약</p>
+                    </div>
+                </div>
+
+                <!-- Row 4: 작업 주체 -->
+                <div class="comp-row">
+                    <div class="comp-category text-center font-black font-black">작업 주체</div>
+                    <div class="comp-left text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-2xl font-black italic leading-tight text-zinc-800 font-black">계약 후 실행사 위탁</p>
+                    </div>
+                    <div class="comp-right text-green-300 text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-3xl font-black italic leading-tight font-black text-white">직접 운영함 (실행사)</p>
+                    </div>
+                </div>
+
+                <!-- Row 5: 작업소통 -->
+                <div class="comp-row">
+                    <div class="comp-category text-center font-black font-black">작업 소통</div>
+                    <div class="comp-left text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-3xl font-black text-red-400 italic leading-tight font-black">답답하고 느림</p>
+                    </div>
+                    <div class="comp-right text-indigo-300 text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-4xl font-black italic leading-tight font-black text-white leading-none font-black">즉각적이고 빠름</p>
+                    </div>
+                </div>
+
+                <!-- Row 6: AS관리 -->
+                <div class="comp-row">
+                    <div class="comp-category text-center font-black font-black">A/S 관리</div>
+                    <div class="comp-left text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-3xl font-black italic text-zinc-800 font-black">책임 회피</p>
+                    </div>
+                    <div class="comp-right text-center flex flex-col justify-center">
+                        <p class="text-[14px] md:text-4xl font-black underline decoration-green-300 font-black leading-none font-black">100% 무상 보장</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. STRENGTHS SECTION (수직 3단 고정) -->
+    <section class="py-24 md:py-40 px-4 flex flex-col items-center text-center font-black italic">
+        <div class="max-w-4xl w-full text-center">
+            <h2 class="text-2xl md:text-[80px] font-black mb-12 tracking-tighter leading-tight break-keep italic text-center text-zinc-900 font-black italic font-black font-black italic font-black font-black italic">
+                의미 없는 영상 100개보다 <br>
+                <span class="text-brand-green underline decoration-green-100 underline-offset-8 font-black">완벽한 하나가 수익의 본질입니다.</span>
+            </h2>
+           
+            <div class="flex flex-col gap-6 mt-12 w-full items-center">
+                <!-- Card 1 -->
+                <div class="p-8 pricing-card rounded-high shadow-xl w-full bg-white border border-zinc-100 flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-full md:w-1/4 flex justify-center items-center">
+                        <div class="w-24 h-24 bg-green-50 rounded-[30px] flex items-center justify-center shadow-inner font-black italic">
+                            <svg class="w-12 h-12 text-brand-green font-black italic" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h4 class="text-xl md:text-2xl font-black mb-3 text-brand-green italic tracking-tight uppercase font-black font-black italic"># 100% AS 책임제</h4>
+                        <p class="text-[12px] md:text-lg text-zinc-500 font-medium font-black italic leading-relaxed text-center md:text-left font-black italic font-black font-black font-black">
+                            건당 업로드 게시 후 7일 이내 <br class="md:hidden">
+                            <span class="font-black text-zinc-900 underline font-black font-black font-black font-black font-black">최소 조회수(500회)</span> 미달 시, <br class="md:hidden">
+                            무상 재작업 및 배포 매니징 가동.
+                        </p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="p-8 pricing-card rounded-high shadow-xl w-full bg-white border border-zinc-100 flex flex-col md:flex-row items-center gap-6 font-black italic font-black">
+                    <div class="w-full md:w-1/4 flex justify-center items-center font-black italic font-black font-black">
+                        <div class="w-24 h-24 bg-amber-50 rounded-[30px] flex items-center justify-center shadow-inner font-black italic font-black">
+                            <svg class="w-12 h-12 text-amber-600 font-black italic" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left font-black italic font-black font-black font-black">
+                        <h4 class="text-xl md:text-2xl font-black mb-3 text-brand-green italic tracking-tight uppercase font-black font-black font-black font-black"># 품질 보호 정책</h4>
+                        <p class="text-[12px] md:text-lg text-zinc-500 font-medium font-black italic leading-relaxed text-center md:text-left font-black italic font-black font-black font-black">
+                            채널 보호를 위해 <br class="md:hidden">
+                            <span class="font-black text-zinc-900 underline italic font-black font-black font-black font-black font-black">일일 5개 미만</span> <br class="md:hidden">
+                            업로드 원칙을 고수합니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="p-8 pricing-card rounded-high shadow-xl w-full bg-white border border-zinc-100 flex flex-col md:flex-row items-center gap-6 glow-green font-black italic font-black font-black">
+                    <div class="w-full md:w-1/4 flex justify-center items-center">
+                        <div class="w-24 h-24 bg-indigo-50 rounded-[30px] flex items-center justify-center shadow-inner">
+                            <svg class="w-12 h-12 text-indigo-600 font-black italic" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left font-black italic font-black font-black">
+                        <h4 class="text-xl md:text-2xl font-black mb-3 text-brand-green italic tracking-tight uppercase font-black font-black font-black font-black"># Premium Asset</h4>
+                        <p class="text-[12px] md:text-lg text-zinc-500 font-medium italic leading-relaxed font-black text-center md:text-left font-black italic font-black font-black font-black">
+                            조회수 그 이상의 <br class="md:hidden">
+                            <span class="text-brand-green font-black underline decoration-green-100 underline-offset-4 text-xl md:text-5xl italic font-black text-center font-black italic font-black font-black font-black">비즈니스 가치를</span> <br class="md:hidden">
+                            정밀 설계합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PRICING SECTION -->
+    <section id="pricing" class="py-16 md:py-32 px-2 md:px-6 bg-white rounded-master mx-1 md:mx-4 shadow-sm text-center">
+        <div class="max-w-6xl w-full flex flex-col items-center mx-auto text-center font-black italic font-black">
+            <h2 class="text-3xl md:text-[100px] font-black mb-8 tracking-tighter uppercase italic text-center text-brand-green font-black italic font-black italic font-black italic">Pricing Guide</h2>
+           
+            <div class="force-grid-2 w-full max-w-5xl mx-auto gap-3 md:gap-8 font-black font-black italic font-black">
+               
+                <!-- 0. Lite -->
+                <div class="pricing-card rounded-high border-zinc-100 font-black">
+                    <h4 class="text-[10px] md:text-xl font-black mb-2 italic text-zinc-300 uppercase tracking-widest text-center italic font-black">Lite</h4>
+                    <div class="h-[40px] flex items-center justify-center font-black">
+                        <p class="text-xl md:text-5xl font-black text-brand-green tracking-tighter font-black">88,000원</p>
+                    </div>
+                    <div class="plan-divider-box w-full font-black">
+                        <p class="text-sm md:text-4xl font-black italic text-brand-green leading-none text-center font-black italic font-black italic font-black font-black font-black">5,000회+</p>
+                        <p class="text-[8px] md:text-sm font-bold text-zinc-400 uppercase mt-4 italic text-center font-black font-black font-black italic font-black font-black">월 10건 업로드 기준</p>
+                    </div>
+                    <ul class="space-y-1 md:space-y-2 mb-4 plan-feature-list text-zinc-500 text-left pl-2 font-black italic">
+                        <li>✅ <span class="no-wrap italic text-zinc-900 underline decoration-green-100 italic font-black italic font-black">자사 운영 채널 인프라 활용</span></li>
+                        <li class="no-wrap italic"><span class="as-black text-zinc-900 font-black italic font-black font-black">7일 내 </span><span class="as-green-focus italic font-black text-brand-green font-black font-black font-black font-black font-black">100% 무상 </span><span class="as-black text-zinc-900 font-black italic font-black font-black font-black font-black font-black font-black">AS 보장</span></li>
+                        <li>✅ <span class="italic text-zinc-800 font-bold font-black italic font-black font-black font-black font-black font-black">1개월 단위 자유 계약</span></li>
+                    </ul>
+                    <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-3 rounded-full font-black text-[10px] md:text-base border-2 border-brand-green text-brand-green text-center italic font-black font-black font-black font-black font-black">신청하기</a>
+                </div>
+
+                <!-- 1. Trial -->
+                <div class="pricing-card rounded-high border-2 border-brand-green/30 bg-zinc-50 shadow-md font-black italic">
+                    <h4 class="text-[10px] md:text-xl font-black mb-4 italic text-zinc-400 uppercase tracking-widest text-center italic font-black font-black italic">Trial</h4>
+                    <div class="h-[50px] flex items-center justify-center font-black italic font-black font-black">
+                        <p class="text-xl md:text-5xl font-black text-brand-green tracking-tighter underline decoration-green-200 font-black italic font-black italic font-black font-black">150,000원</p>
+                    </div>
+                    <div class="plan-divider-box w-full font-black font-black italic">
+                        <p class="text-sm md:text-4xl font-black italic text-brand-green leading-none text-center font-black font-black italic font-black italic font-black italic font-black font-black">10,000회+</p>
+                        <p class="text-[8px] md:text-sm font-bold text-zinc-400 mt-2 italic text-center font-black italic font-black italic font-black font-black italic font-black font-black">월 20건 업로드 기준</p>
+                    </div>
+                    <ul class="space-y-1.5 md:space-y-3 mb-6 plan-feature-list text-zinc-500 text-left pl-2 font-black italic font-black">
+                        <li>✅ <span class="no-wrap italic text-zinc-900 font-black italic font-black italic font-black font-black font-black font-black font-black">자사 운영 채널 인프라 활용</span></li>
+                        <li class="no-wrap italic"><span class="as-black text-zinc-900 font-black italic font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black font-black">7일 내 </span><span class="as-green-focus italic font-black text-brand-green font-black font-black font-black font-black font-black">100% 무상 </span><span class="as-black text-zinc-900 font-black italic font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black font-black italic font-black text-center">AS 보장</span></li>
+                        <li>✅ <span class="italic text-zinc-800 font-bold font-black italic font-black italic font-black font-black font-black font-black text-center">1개월 단위 자유 계약</span></li>
+                    </ul>
+                    <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-4 rounded-full font-black text-[10px] md:text-base bg-brand-green text-white text-center italic font-black italic font-black font-black font-black font-black font-black">신청하기</a>
+                </div>
+
+                <!-- 2. Starter -->
+                <div class="pricing-card rounded-high border-zinc-100 font-black italic font-black font-black">
+                    <h4 class="text-[10px] md:text-xl font-black mb-4 italic text-zinc-300 uppercase tracking-widest text-center italic font-black font-black font-black font-black">Starter</h4>
+                    <div class="h-[50px] flex items-center justify-center font-black italic font-black font-black font-black font-black">
+                        <p class="text-xl md:text-5xl font-black text-brand-green tracking-tighter font-black font-black font-black font-black font-black font-black font-black font-black">330,000원</p>
+                    </div>
+                    <div class="plan-divider-box w-full font-black font-black italic font-black font-black font-black font-black">
+                        <p class="text-sm md:text-4xl font-black italic text-brand-green leading-none text-brand-green text-center font-black italic font-black font-black italic font-black italic font-black italic font-black italic">30,000회+</p>
+                        <p class="text-[8px] md:text-sm font-bold text-red-500 uppercase mt-4 italic text-center font-black italic font-black font-black text-center italic font-black font-black font-black italic font-black font-black">월 60건 업로드 기준</p>
+                    </div>
+                    <ul class="space-y-1.5 md:space-y-3 mb-6 plan-feature-list text-zinc-500 text-left pl-2 font-black font-black italic font-black font-black font-black">
+                        <li>✅ <span class="no-wrap italic text-zinc-900 underline decoration-green-100 font-black italic font-black font-black font-black text-center font-black font-black font-black font-black">자사 운영 채널 인프라 활용</span></li>
+                        <li class="no-wrap italic"><span class="as-black text-zinc-900 font-black italic font-black font-black font-black font-black text-center font-black font-black font-black font-black font-black">7일 내 </span><span class="as-green-focus italic font-black text-brand-green font-black font-black font-black font-black font-black text-center">100% 무상 </span><span class="as-black text-zinc-900 font-black italic font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black font-black italic font-black text-center">AS 보장</span></li>
+                        <li>✅ <span class="italic text-zinc-800 font-bold font-black italic font-black italic font-black text-center font-black font-black font-black font-black">1개월 단위 자유 계약</span></li>
+                    </ul>
+                    <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-4 rounded-full font-black text-[10px] md:text-base bg-brand-green text-white text-center italic font-black italic font-black font-black font-black font-black">신청하기</a>
+                </div>
+
+                <!-- 3. Standard -->
+                <div class="pricing-card bg-zinc-900 border-2 border-brand-green shadow-4xl scale-105 z-10 glow-green rounded-high font-black font-black font-black font-black font-black font-black font-black text-center font-black italic font-black">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-brand-green text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest italic shadow-lg text-center font-black italic font-black font-black italic font-black">Most Popular</div>
+                    <h4 class="text-[10px] md:text-xl font-black mb-2 italic text-zinc-500 uppercase tracking-widest text-center italic font-black italic font-black font-black font-black">Standard</h4>
+                    <div class="h-[50px] flex flex-col items-center justify-center font-black italic font-black font-black font-black font-black font-black font-black">
+                        <p class="text-[10px] md:text-xs line-through text-zinc-400 font-black mb-1 italic text-center font-black font-black font-black text-center font-black font-black font-black font-black font-black">정가 660,000원</p>
+                        <p class="text-xl md:text-5xl font-black text-white tracking-tighter text-center italic font-black font-black text-center font-black font-black font-black font-black font-black font-black italic font-black font-black">561,000원</p>
+                    </div>
+                    <div class="plan-divider-box border-white/5 w-full text-center leading-none font-black font-black italic font-black">
+                        <p class="text-sm md:text-4xl font-black italic text-green-400 leading-none text-center italic font-black font-black italic font-black font-black italic font-black italic font-black font-black">60,000회+</p>
+                        <p class="text-[8px] md:text-sm font-bold text-red-400 mt-2 italic text-center font-black italic font-black font-black italic font-black text-center font-black font-black font-black leading-none font-black font-black font-black text-center">월 120건 업로드 기준</p>
+                    </div>
+                    <ul class="space-y-1.5 md:space-y-3 mb-6 plan-feature-list text-zinc-400 text-left pl-2 font-black italic font-black italic font-black italic font-black italic font-black">
+                        <li>✅ <span class="no-wrap italic text-white underline decoration-green-400 font-black italic font-black italic font-black italic font-black font-black font-black">자사 운영 채널 인프라 활용</span></li>
+                        <li class="no-wrap italic"><span class="as-white font-black italic text-xs md:text-sm font-black italic font-black text-center font-black font-black font-black font-black font-black text-center">7일 내 </span><span class="as-neon italic font-black text-green-400 text-center font-black font-black font-black font-black font-black text-center">100% 무상 </span><span class="as-white font-black italic text-xs md:text-sm font-black italic font-black text-center font-black font-black font-black font-black font-black italic font-black text-center">AS 보장</span></li>
+                        <li>✅ <span class="font-black text-white italic font-black italic italic font-black italic italic italic font-black italic text-center font-black italic font-black italic font-black">1개월 단위 자유 계약</span></li>
+                    </ul>
+                    <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-4 rounded-full font-black text-[10px] md:text-base bg-white text-zinc-900 shadow-2xl text-center italic font-black italic font-black italic font-black font-black font-black font-black">신청하기</a>
+                </div>
+
+                <!-- 4. Growth -->
+                <div class="pricing-card rounded-high border-zinc-100 font-black italic font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <h4 class="text-[10px] md:text-xl font-black mb-4 italic text-zinc-300 uppercase tracking-widest text-center italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black text-center">Growth</h4>
+                    <div class="h-[50px] flex flex-col items-center justify-center font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                        <p class="text-[10px] md:text-xs line-through text-zinc-300 font-bold mb-1 italic text-center font-black font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">정가 990,000원</p>
+                        <p class="text-xl md:text-5xl font-black text-brand-green tracking-tighter text-center font-black italic font-black italic font-black text-center font-black font-black font-black italic font-black font-black font-black font-black font-black font-black">792,000원</p>
+                    </div>
+                    <div class="plan-divider-box border-zinc-50 w-full text-brand-green font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                        <p class="text-sm md:text-5xl font-black italic leading-none text-center italic font-black italic font-black italic font-black text-center font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">90,000회+</p>
+                        <p class="text-[8px] md:text-sm font-bold text-red-500 mt-2 italic text-center font-black italic font-black font-black italic font-black font-black text-center font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">월 180건 업로드 기준</p>
+                    </div>
+                    <ul class="space-y-1.5 md:space-y-3 mb-6 plan-feature-list text-zinc-500 text-left pl-1 font-black italic font-black font-black font-black font-black font-black italic font-black font-black font-black font-black font-black">
+                        <li>✅ <span class="no-wrap italic text-zinc-900 underline decoration-green-100 font-black italic italic font-black italic font-black text-center text-center font-black font-black font-black font-black font-black font-black font-black text-center">자사 운영 채널 인프라 활용</span></li>
+                        <li class="no-wrap italic"><span class="as-black text-zinc-900 font-black italic font-black text-xs md:text-sm text-center italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">7일 내 </span><span class="as-green-focus italic font-black text-brand-green text-center font-black font-black font-black font-black font-black font-black font-black font-black text-center">100% 무상 </span><span class="as-black text-zinc-900 font-black italic font-black text-xs md:text-sm text-center italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center text-center">AS 보장</span></li>
+                        <li>✅ <span class="italic text-zinc-800 font-bold font-black italic font-black italic font-black italic font-black text-center font-black italic font-black font-black font-black font-black font-black font-black font-black font-black text-center">1개월 단위 자유 계약</span></li>
+                    </ul>
+                    <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-3 md:py-5 rounded-full font-black text-[9px] md:text-base bg-brand-green text-white shadow-xl text-center italic font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black text-center">신청하기</a>
+                </div>
+
+                <!-- 5. Master (VIP 로고 크게 유지) -->
+                <div class="pricing-card rounded-high border-4 border-brand-green shadow-4xl relative overflow-hidden glow-green scale-105 z-10 font-black italic font-black font-black text-center font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black italic font-black">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-[12rem] italic select-none tracking-tighter text-brand-green font-black leading-none italic font-black italic font-black italic font-black text-center font-black font-black italic font-black font-black font-black font-black font-black font-black font-black text-center">VIP</div>
+                    <h4 class="text-[10px] md:text-xl font-black mb-4 italic uppercase tracking-widest text-brand-green text-center relative z-10 font-black text-center text-brand-green italic font-black font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">Master Strategy</h4>
+                    <div class="h-[50px] flex flex-col items-center justify-center relative z-10 font-black italic font-black font-black font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">
+                        <p class="text-[10px] md:text-xs line-through text-zinc-300 font-bold mb-1 italic font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">정가 1,980,000원</p>
+                        <p class="text-xl md:text-5xl font-black text-brand-green tracking-tighter italic font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black italic font-black italic font-black font-black font-black font-black font-black text-center">1,287,000원</p>
+                    </div>
+                    <div class="plan-divider-box border-zinc-100 w-full text-center relative z-10 font-black italic font-black font-black font-black text-center font-black font-black font-black font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black italic font-black">
+                        <p class="text-sm md:text-6xl font-black italic text-brand-green underline decoration-green-100 underline-offset-8 text-center font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">180,000회+</p>
+                        <p class="text-[8px] md:text-sm font-bold text-red-500 mt-2 italic uppercase text-center font-black italic font-black font-black font-black italic font-black font-black text-center font-black font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black italic font-black text-center">월 360건 업로드 기준</p>
+                    </div>
+                    <ul class="space-y-1.5 md:space-y-4 mb-8 plan-feature-list text-zinc-500 text-left pl-2 relative z-20 font-black font-black italic font-black italic font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black">
+                        <li>✅ <span class="no-wrap italic text-zinc-900 underline decoration-green-100 italic font-black italic font-black font-black font-black font-black text-center font-black italic font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black italic font-black text-center">자사 운영 채널 인프라 활용</span></li>
+                        <li class="no-wrap italic"><span class="as-black text-zinc-900 italic font-black font-black font-black italic font-black font-black font-black italic font-black font-black font-black font-black font-black italic font-black italic font-black text-center font-black font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black italic font-black text-center">7일 내 </span><span class="as-focus-green italic font-black font-black font-black italic font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black italic font-black text-center">100% 무상 </span><span class="as-black text-zinc-900 italic font-black font-black font-black italic font-black font-black font-black italic font-black font-black font-black font-black font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black italic font-black text-center">AS 보장</span></li>
+                        <li>✅ <span class="italic text-zinc-800 font-black italic font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black font-black font-black font-black italic font-black text-center">1개월 단위 자유 계약</span></li>
+                    </ul>
+                    <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-4 rounded-full font-black text-[10px] md:text-base bg-brand-green text-white shadow-green-900/20 active:scale-95 transition-all text-center relative z-10 italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center">신청하기</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PRODUCTION SECTION -->
+    <section class="py-32 md:py-48 px-4 flex flex-col items-center border-t border-zinc-100 bg-[#FCF8F3] text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+        <div class="max-w-6xl w-full bg-slate-900 rounded-master p-10 md:p-24 text-center text-white relative overflow-hidden shadow-4xl flex flex-col items-center border border-white/10 glow-green font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+            <h2 class="text-2xl md:text-[8vw] font-black mb-10 md:mb-16 tracking-tighter leading-tight italic break-keep relative z-10 font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                대표님은 오직 <br>
+                <span class="biz-light italic inline-block my-2 text-center italic font-black font-black italic font-black italic font-black text-center font-black font-black font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black text-center font-black">비즈니스</span>에만 <br> 집중하세요.
+            </h2>
+           
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 mb-16 md:mb-28 w-full max-w-5xl relative z-10 font-black italic tracking-widest text-lg md:text-5xl text-white font-black italic font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                <div class="px-4 py-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors shadow-inner font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <span class="text-green-400 font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">#</span>영상촬영
+                </div>
+                <div class="px-4 py-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors shadow-inner font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <span class="text-green-400 font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">#</span>영상편집
+                </div>
+                <div class="px-4 py-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors shadow-inner font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <span class="text-green-400 font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">#</span>영상기획
+                </div>
+                <div class="px-4 py-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors shadow-inner font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <span class="text-green-400 font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">#</span>나레이션
+                </div>
+                <div class="px-4 py-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors shadow-inner font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <span class="text-green-400 font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">#</span>영상자막
+                </div>
+                <div class="px-4 py-8 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-colors shadow-inner font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                    <span class="text-green-400 font-black italic font-black italic font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">#</span>기획총괄
+                </div>
+            </div>
+
+            <div class="relative inline-block px-12 py-10 md:px-20 md:py-16 bg-white text-zinc-900 rounded-master shadow-4xl group transition-all font-black text-center font-black italic font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+                <div class="absolute -top-5 -right-5 w-16 h-16 md:w-32 md:h-32 bg-brand-green rounded-full flex items-center justify-center text-white font-black rotate-12 text-xs md:text-lg shadow-2xl transition-transform group-hover:scale-110 font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">VIP SET</div>
+                <p class="text-[9px] md:text-sm font-black opacity-30 mb-4 md:mb-8 uppercase tracking-[0.5em] italic font-black leading-none text-center font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">Full Production Solution</p>
+                <p class="text-4xl md:text-[110px] font-black tracking-tighter leading-none italic italic font-black text-slate-900 text-center font-black italic font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">1,000,000원 <span class="text-lg md:text-5xl font-normal opacity-50 italic italic italic font-black italic font-black italic font-black font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">~</span></p>
+                <p class="text-[9px] md:text-sm mt-6 md:mt-12 opacity-40 text-right font-bold italic uppercase tracking-widest font-black italic font-black italic font-black italic font-black italic font-black italic font-black font-black font-black italic font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">(VAT 미포함)</p>
+               
+                <a href="http://pf.kakao.com/_rPZkn" target="_blank" class="w-full py-4 mt-8 rounded-full font-black text-xs md:text-base bg-brand-green text-white shadow-xl block hover:bg-opacity-90 active:scale-95 transition-all uppercase tracking-widest italic font-black italic font-black italic font-black font-black italic font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">패키지 상담 신청하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. FOOTER -->
+    <footer class="py-48 px-4 text-center flex flex-col items-center bg-[#0A0A0B] relative overflow-hidden text-center font-black font-black italic font-black italic font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-green-500/10 blur-[150px] pointer-events-none font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black"></div>
+       
+        <div class="max-w-5xl mx-auto flex flex-col items-center relative z-10 text-white px-4 text-center font-black italic font-black italic font-black font-black text-center font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black font-black fon
